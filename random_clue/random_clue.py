@@ -7,7 +7,12 @@ import sqlite3
 import os
 import numpy as np
 
-data_path = '/home/haydenh/repos/projects/jeopardy/Data/jeopardy.sqlite'
+abspath = os.path.abspath(__file__)
+d = os.path.dirname(abspath)
+data_path = os.path.join(d, os.pardir, os.pardir, os.pardir,  'Data', 'jeopardy.sqlite') 
+
+
+
 conn = sqlite3.connect(data_path)
 c = conn.cursor()
 rows = c.execute('select count(*) from questions where value>0;').fetchone()[0]
