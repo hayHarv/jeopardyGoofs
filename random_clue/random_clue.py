@@ -1,7 +1,6 @@
-#TODO filter final jeopardy
-#TODO make dem functions better
-#TODO add prompt for # of questions (and include final jeopardy?)
-#TODO add timer
+#TODO add filter options for final jeopardy/double jeopardy to query
+#TODO add Game class to take rounds
+
 
 import sqlite3
 import os
