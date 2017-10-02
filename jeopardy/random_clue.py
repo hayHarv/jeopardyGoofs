@@ -32,3 +32,9 @@ def get_question(rows, sqlite_cursor):
     answer = result[3]
     return category, value, question, answer
 
+
+def get_n_questions(n=5):
+    questions = []
+    for i in range(n):
+        questions.append(get_question(rows, c))
+    return questions
