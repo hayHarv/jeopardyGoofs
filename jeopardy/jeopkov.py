@@ -3,15 +3,28 @@ from .random_clue import (conn,
 import random
 import nltk
 
-def n_samples(n=500):
-    corpus = []
-    query = conn.execute('select category from questions limit {};'.format(n))
+def n_samples(type='category', n=500):
+    '''
+    Selects  n-items from jeopardy database
+
+    Parameters
+    ----------
+    type: str
+        'category' selects jeopardy categories
+        'question_text' selects jeopardy clues
+
+    Returns
+    ----------
+    List of tokens
+    '''
+    tokens = []
+    query = conn.execute('select {} from questions where category != \'final\' limit {};'.format(type, n))
     for idx in range(n):
         question = query.fetchone()[0].split(' ')
         for word in question:
-            corpus.append(word)
+            tokens.append(word)
 
-    return corpus
+    return tokens
 
 
 class MarkovChain:
@@ -32,7 +45,10 @@ class MarkovChain:
     def learn(self, tokens):
         bigrams = list(nltk.bigrams(tokens))
         for bigram in bigrams:
-            self._learn_key(bigram[0], bigram[1])
+            if '' not in bigram:
+                self._learn_key(bigram[0], bigram[1])
+            else:
+                pass
     
     def _next(self, current_state):
         next_possible = self.memory.get(current_state)
@@ -48,3 +64,6 @@ class MarkovChain:
         
         next_word = self._next(state)
         return state + ' ' + self.babble(amount -1, next_word)
+    
+    def fresh_babble(self, amount):
+        return self.babble(amount)
