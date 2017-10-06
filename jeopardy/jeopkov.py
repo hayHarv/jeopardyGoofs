@@ -3,6 +3,7 @@ from .random_clue import (conn,
 import random
 import nltk
 
+
 def n_samples(type='category', n=500):
     '''
     Selects  n-items from jeopardy database
@@ -31,7 +32,7 @@ class MarkovChain:
     '''
     Markov Chain for Learning n-grams
 
-    
+
     '''
     def __init__(self):
         self.memory = {}
@@ -43,6 +44,13 @@ class MarkovChain:
         self.memory[key].append(value)
 
     def learn(self, tokens):
+        '''
+        learn markov chain from tokens
+
+        Parameters
+        ----------
+        tokens : list of tokens in order of appearance
+        '''
         bigrams = list(nltk.bigrams(tokens))
         for bigram in bigrams:
             if '' not in bigram:
